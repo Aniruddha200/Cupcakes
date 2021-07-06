@@ -38,7 +38,7 @@ struct OrderView: View {
 			.frame(width: 200, height: 50)
 			.background(Color.green)
 			.clipShape(Capsule())
-			.overlay(Capsule().stroke(style: StrokeStyle(lineWidth: 3, dash: [12], dashPhase: 2)))
+			.overlay(Capsule().stroke(Color.green, style: StrokeStyle(lineWidth: 3)))
 			.alert(isPresented:$isShowing){
 				Alert(title: Text("Thank You!"), message: Text("\(customMassage)"), dismissButton: .default(Text("OK")))
 			}
@@ -53,25 +53,35 @@ struct OrderView: View {
     }
 	
 	func payment(){
+		guard let encoded = try? JSONEncoder().encode(order) else{
+			print("Encoding Failed!")
+			return
+		}
 		let url = URL(string: "https://reqres.in/api/cupcakes")
 		var request = URLRequest(url: url!)
-		request.httpMethod = "GET"
+		request.httpMethod = "POST"
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.httpBody = encoded
 		
-		URLSession.shared.dataTask(with: request){ data, res, error in
-			guard let data = data else{
+		URLSession.shared.dataTask(with: request){ _, res, error in
+			guard let response = res as? HTTPURLResponse else{
 				print("Error: \(error?.localizedDescription ?? "Unknown Error")")
 				self.customMassage = error?.localizedDescription ?? "Unknown Error Occured"
 				self.isShowing.toggle()
 				return
 			}
 			
-			guard let decodedData =  try? JSONDecoder().decode(APIResponse.self, from: data) else{
-				print("Decoding Failed!")
-				return
+			if response.statusCode == 201{
+			
+				self.customMassage = """
+					Your order is succesfully placed
+					Bon Appetite!
+					"""
+				
+			
 			}
 			
-			self.customMassage = decodedData.support.text
+			
 			
 			self.isShowing.toggle()
 			

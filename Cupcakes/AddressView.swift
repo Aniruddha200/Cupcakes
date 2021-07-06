@@ -14,16 +14,12 @@ struct AddressView: View {
 		self.order = order
 	}
 	
-	@State private var houseNo = ""
-	@State private var address1 = ""
-	@State private var address2 = ""
-	@State private var pincode = ""
     var body: some View {
 		Section(header: Text("Fill the address")){
-			TextField("House no", text: $houseNo)
-			TextField("Address Line 1", text: $address1)
-			TextField("Address Line 2", text: $address2)
-			TextField("Pin code", text: $pincode)
+			TextField("House no", text: $order.houseNo)
+			TextField("Address Line 1", text: $order.address1)
+			TextField("Address Line 2", text: $order.address2)
+			TextField("Pin code", text: $order.pincode)
 		}
 		.textFieldStyle(RoundedBorderTextFieldStyle())
 		.padding()
