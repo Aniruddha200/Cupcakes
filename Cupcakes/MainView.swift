@@ -18,22 +18,22 @@ struct MainView: View {
 		
 		NavigationView{
 			VStack{
-				Picker("Select the Type", selection: $order.type){
-					ForEach(0..<order.cakeTypes.count){
-						Text("\(order.cakeTypes[$0])")
+				Picker("Select the Type", selection: $order.orderDetails.type){
+					ForEach(0..<order.orderDetails.cakeTypes.count){
+						Text("\(order.orderDetails.cakeTypes[$0])")
 					}
 				}
 				.pickerStyle(MenuPickerStyle())
 				
 				
-				Stepper("Quantity \(order.quantity)", value: $order.quantity)
+				Stepper("Quantity \(order.orderDetails.quantity)", value: $order.orderDetails.quantity)
 				
 				
-				Toggle("Wanna Customize?", isOn: $order.topUps.animation())
+				Toggle("Wanna Customize?", isOn: $order.orderDetails.topUps.animation())
 				
-				if order.topUps{
-					Toggle("Exta Cream", isOn: $order.extraCream)
-					Toggle("Sprinkles", isOn: $order.sprinkles)
+				if order.orderDetails.topUps{
+					Toggle("Exta Cream", isOn: $order.orderDetails.extraCream)
+					Toggle("Sprinkles", isOn: $order.orderDetails.sprinkles)
 				}
 				
 				NavigationLink("Add Address", destination: AddressView(of: order))

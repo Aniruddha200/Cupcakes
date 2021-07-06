@@ -29,7 +29,7 @@ struct OrderView: View {
 				
 			}
 			
-			Text("Totol Cost: \(order.cost, specifier: "%.2f")")
+			Text("Totol Cost: \(order.orderDetails.cost, specifier: "%.2f")")
 				.padding()
 			
 			Button("Pay"){
@@ -74,7 +74,7 @@ struct OrderView: View {
 			if response.statusCode == 201{
 			
 				self.customMassage = """
-					Your order is succesfully placed
+					Your order of \(order.orderDetails.cakeTypes[order.orderDetails.type]) cake is succesfully placed
 					Bon Appetite!
 					"""
 				

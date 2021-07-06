@@ -16,15 +16,16 @@ struct AddressView: View {
 	
     var body: some View {
 		Section(header: Text("Fill the address")){
-			TextField("House no", text: $order.houseNo)
-			TextField("Address Line 1", text: $order.address1)
-			TextField("Address Line 2", text: $order.address2)
-			TextField("Pin code", text: $order.pincode)
+			TextField("House no", text: $order.orderDetails.houseNo)
+			TextField("Address Line 1", text: $order.orderDetails.address1)
+			TextField("Address Line 2", text: $order.orderDetails.address2)
+			TextField("Pin code", text: $order.orderDetails.pincode)
 		}
 		.textFieldStyle(RoundedBorderTextFieldStyle())
 		.padding()
 		
 		NavigationLink("Place Order", destination: OrderView(of: order))
+			.disabled(order.orderDetails.addressValidity)
 		
 			.navigationBarTitle("Address", displayMode: .inline)
     }
